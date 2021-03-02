@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
+  final bool isLoading;
   final void Function(
-          String email, String password, String username, bool isLogin)
-      sumbitAuthForm;
+    String email,
+    String password,
+    String username,
+    bool isLogin,
+    BuildContext ctx,
+  ) sumbitAuthForm;
 
-  AuthForm(this.sumbitAuthForm, {Key key}) : super(key: key);
+  AuthForm(this.sumbitAuthForm, this.isLoading, {Key key}) : super(key: key);
 
   @override
   _AuthFormState createState() => _AuthFormState();
@@ -77,15 +82,19 @@ class _AuthFormState extends State<AuthForm> {
                   SizedBox(
                     height: 12,
                   ),
-                  RaisedButton(
-                    child: Text(_isLogin ? 'Login' : 'Sign Up'),
-                    onPressed: _trySubmit,
-                  ),
+                  if (widget.isLoading) CircularProgressIndicator(),
+                  if (!widget.isLoading)
+                    RaisedButton(
+                      child: Text(_isLogin ? 'Login' : 'Sign Up'),
+                      onPressed: _trySubmit,
+                    ),
                   FlatButton(
                     textColor: Theme.of(context).primaryColor,
-                    child: Text(_isLogin
-                        ? 'Create new account'
-                        : 'I Already have an account'),
+                    child: Text(
+                      _isLogin
+                          ? 'Create new account'
+                          : 'I Already have an account',
+                    ),
                     onPressed: () {
                       setState(() {
                         _isLogin = !_isLogin;
@@ -105,7 +114,13 @@ class _AuthFormState extends State<AuthForm> {
     if (_formKey.currentState.validate()) {
       FocusScope.of(context).unfocus();
       _formKey.currentState.save();
-      widget.sumbitAuthForm(_userEmail, _userPassword, _userName, _isLogin);
+      widget.sumbitAuthForm(
+        _userEmail.trim(),
+        _userPassword.trim(),
+        _userName.trim(),
+        _isLogin,
+        context,
+      );
     }
   }
 }
