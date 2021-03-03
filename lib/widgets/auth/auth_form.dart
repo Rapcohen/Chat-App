@@ -1,5 +1,7 @@
-import 'package:chat_app/widgets/pickers/user_image_picker.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:chat_app/widgets/pickers/user_image_picker.dart';
 
 class AuthForm extends StatefulWidget {
   final bool isLoading;
@@ -7,6 +9,7 @@ class AuthForm extends StatefulWidget {
     String email,
     String password,
     String username,
+    File imageFile,
     bool isLogin,
     BuildContext ctx,
   ) sumbitAuthForm;
@@ -23,6 +26,7 @@ class _AuthFormState extends State<AuthForm> {
   String _userEmail = '';
   String _userName = '';
   String _userPassword = '';
+  File _userImageFile;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,7 @@ class _AuthFormState extends State<AuthForm> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (!_isLogin) UserImagePicker(),
+                  if (!_isLogin) UserImagePicker(imagePickFn: _pickImage),
                   TextFormField(
                     key: const ValueKey('email'),
                     keyboardType: TextInputType.emailAddress,
@@ -114,15 +118,26 @@ class _AuthFormState extends State<AuthForm> {
 
   void _trySubmit() {
     if (_formKey.currentState.validate()) {
+      if (!_isLogin && _userImageFile == null) {
+        Scaffold.of(context).showSnackBar(
+          SnackBar(content: Text('Please add an image')),
+        );
+        return;
+      }
       FocusScope.of(context).unfocus();
       _formKey.currentState.save();
       widget.sumbitAuthForm(
         _userEmail.trim(),
         _userPassword.trim(),
         _userName.trim(),
+        _userImageFile,
         _isLogin,
         context,
       );
     }
+  }
+
+  void _pickImage(File imageFile) {
+    _userImageFile = imageFile;
   }
 }
