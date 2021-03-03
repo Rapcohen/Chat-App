@@ -45,6 +45,8 @@ class _AuthFormState extends State<AuthForm> {
                   if (!_isLogin) UserImagePicker(imagePickFn: _pickImage),
                   TextFormField(
                     key: const ValueKey('email'),
+                    autocorrect: false,
+                    textCapitalization: TextCapitalization.none,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(labelText: 'Email'),
                     validator: (value) {

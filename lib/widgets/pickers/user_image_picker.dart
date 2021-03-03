@@ -21,7 +21,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
       children: [
         CircleAvatar(
           radius: 40,
-          backgroundColor: Colors.grey[400],
+          backgroundColor: Colors.grey[300],
           backgroundImage:
               _pickedImage != null ? FileImage(_pickedImage) : null,
         ),
@@ -38,8 +38,8 @@ class _UserImagePickerState extends State<UserImagePicker> {
   void _pickImage() async {
     final picker = ImagePicker();
     final pickedImage = await picker.getImage(
-      source: ImageSource.camera,
-      imageQuality: 50,
+      source: ImageSource.gallery,
+      imageQuality: 60,
       maxWidth: 150,
     );
     final pickedImageFile = File(pickedImage.path);

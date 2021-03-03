@@ -23,6 +23,7 @@ class MessageBubble extends StatelessWidget {
               isCurrentUser ? MainAxisAlignment.end : MainAxisAlignment.start,
           children: [
             Container(
+              width: 150,
               decoration: BoxDecoration(
                 color: isCurrentUser
                     ? Colors.blueGrey[100]
@@ -36,9 +37,8 @@ class MessageBubble extends StatelessWidget {
                       isCurrentUser ? Radius.circular(0) : Radius.circular(16),
                 ),
               ),
-              width: 140,
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-              margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+              margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
               child: Column(
                 crossAxisAlignment: isCurrentUser
                     ? CrossAxisAlignment.end
@@ -46,21 +46,23 @@ class MessageBubble extends StatelessWidget {
                 children: [
                   Text(
                     username,
+                    // textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
+                      fontSize: 15,
                       color: isCurrentUser
                           ? Colors.black
-                          : Theme.of(context).accentTextTheme.title.color,
+                          : Theme.of(context).accentTextTheme.headline6.color,
                     ),
                   ),
                   Text(
                     message,
+                    textAlign: isCurrentUser ? TextAlign.end : TextAlign.start,
                     style: TextStyle(
                       color: isCurrentUser
                           ? Colors.black
-                          : Theme.of(context).accentTextTheme.title.color,
+                          : Theme.of(context).accentTextTheme.headline6.color,
                     ),
-                    textAlign: isCurrentUser ? TextAlign.end : TextAlign.start,
                   ),
                 ],
               ),
@@ -68,11 +70,11 @@ class MessageBubble extends StatelessWidget {
           ],
         ),
         Positioned(
-          //Todo: set img position
-          top: 0,
-          left: isCurrentUser ? null : 115,
-          right: isCurrentUser ? 115 : null,
+          top: 4,
+          left: isCurrentUser ? null : 120,
+          right: isCurrentUser ? 120 : null,
           child: CircleAvatar(
+            radius: 19,
             backgroundImage: NetworkImage(imageUrl),
           ),
         ),
